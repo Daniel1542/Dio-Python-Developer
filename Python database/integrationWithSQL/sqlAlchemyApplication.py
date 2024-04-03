@@ -26,7 +26,7 @@ class Cliente(Base):
         do SQLite.
     """
     __tablename__ = "cliente"
-    
+
     # atributos
     id = Column(Integer, primary_key=True)
     nome = Column(String)
@@ -34,9 +34,10 @@ class Cliente(Base):
     endereco = Column(String(9))
 
     contas = relationship("Conta", back_populates="cliente")
-    
+
     def __repr__(self):
-        return f"Cliente(id={self.id}, nome={self.nome}, cpf={self.cpf}, endereco={self.endereco})"
+        return f"Cliente(id={self.id}, nome={self.nome}, cpf={
+            self.cpf}, endereco={self.endereco})"
 
 
 class Conta(Base):
@@ -53,10 +54,11 @@ class Conta(Base):
     id_cliente = Column(Integer, ForeignKey('cliente.id'))
     saldo = Column(Float)
 
-    cliente = relationship("Cliente", back_populates="contas") 
+    cliente = relationship("Cliente", back_populates="contas")
 
     def __repr__(self):
-        return f"Conta(id={self.id}, tipo={self.tipo}, agencia={self.agencia}, num={self.num}, saldo={self.saldo})"
+        return f"Conta(id={self.id}, tipo={self.tipo}, agencia={
+            self.agencia}, num={self.num}, saldo={self.saldo})"
 
 
 print(Cliente.__tablename__)
@@ -82,25 +84,25 @@ sandy = Cliente(
     nome='sandy',
     cpf='151555254',
     endereco='juanam@email.com'
-    
+
 )
 patrick = Cliente(
     nome='patrick',
     cpf='141555254',
     endereco='jnam@email.com'
-    
+
 )
 conta_011 = Conta(
-    tipo = 'poupanca',
-    agencia = '0001',
-    num = 1112,
-    id_cliente = 1,
-    saldo = 50
-    
+    tipo='poupanca',
+    agencia='0001',
+    num=1112,
+    id_cliente=1,
+    saldo=50
+
 )
 
 # enviando para o BD (persitência de dados)
-session.add_all([juliana, sandy, patrick,conta_011])
+session.add_all([juliana, sandy, patrick, conta_011])
 
 session.commit()
 
@@ -115,7 +117,7 @@ for result in session.execute(stmt_order):
     print(result)
 
 
-stmt_order_conta = select(Conta).order_by(Conta.tipo.desc())  
+stmt_order_conta = select(Conta).order_by(Conta.tipo.desc())
 print("\nRecuperando info de contas de maneira ordenada")
 for result in session.execute(stmt_order_conta):
     print(result)
